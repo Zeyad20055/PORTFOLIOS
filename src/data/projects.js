@@ -1,0 +1,73 @@
+// Replace image paths and links with real project assets/URLs when ready.
+// Rendered dynamically by the Projects section — do not hardcode project
+// markup anywhere else.
+const projects = [
+  {
+    id: "proj-01",
+    title: "MERN E-Commerce Platform",
+    description: "Production-ready e-commerce backend and storefront with JWT auth, cart, orders, and an admin dashboard.",
+    image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&q=80",
+    technologies: ["React", "Node.js", "Express", "MongoDB", "JWT"],
+    github: "https://github.com/zeyad20055",
+    liveDemo: "#",
+    category: "Full Stack",
+    featured: true,
+  },
+  {
+    id: "proj-02",
+    title: "Real-Time Chat App",
+    description: "Socket-powered messaging app with rooms, typing indicators, and persisted conversation history.",
+    image: "https://images.unsplash.com/photo-1611262588024-d12430b98920?w=800&q=80",
+    technologies: ["React", "Node.js", "Express", "MongoDB"],
+    github: "https://github.com/zeyad20055",
+    liveDemo: "#",
+    category: "Full Stack",
+    featured: true,
+  },
+  {
+    id: "proj-03",
+    title: "Task Management Dashboard",
+    description: "Kanban-style task board with drag-and-drop, team workspaces, and role-based permissions.",
+    image: "https://images.unsplash.com/photo-1540350394557-8d14678e7f91?w=800&q=80",
+    technologies: ["React", "Redux Toolkit", "Tailwind CSS"],
+    github: "https://github.com/zeyad20055",
+    liveDemo: "#",
+    category: "Frontend",
+    featured: false,
+  },
+  {
+    id: "proj-04",
+    title: "REST API for a Booking System",
+    description: "Documented REST API handling availability, reservations, and payments with rate limiting.",
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80",
+    technologies: ["Node.js", "Express", "MongoDB", "Postman"],
+    github: " https://zeyad20055.github.io/BackEndRecipe",
+    liveDemo: "#",
+    category: "Backend",
+    featured: false,
+  },
+  {
+    id: "proj-05",
+    title: "Analytics Dashboard",
+    description: "Data visualization dashboard summarizing sales and engagement metrics from multiple sources.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+    technologies: ["React", "Chart.js", "Tailwind CSS"],
+    github: "https://zeyad20055.github.io/COOFFE_REACT",
+    liveDemo: "#",
+    category: "Frontend",
+    featured: false,
+  },
+  {
+    id: "proj-06",
+    title: "Learning Platform for Students",
+    description: "Course platform with video lessons, progress tracking, and quizzes for university students.",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80",
+    technologies: ["React", "Node.js", "Express", "MongoDB"],
+    github: "https://github.com/zeyad20055",
+    liveDemo: "#",
+    category: "Full Stack",
+    featured: true,
+  },
+];
+
+export default projects;

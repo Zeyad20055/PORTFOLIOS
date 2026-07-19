@@ -1,0 +1,36 @@
+// Skill proficiency values are used to drive the animated progress bars.
+export const frontendSkills = [
+  { id: 'fe-01', name: 'HTML5', level: 95 },
+  { id: 'fe-02', name: 'CSS3', level: 92 },
+  { id: 'fe-03', name: 'JavaScript', level: 92 },
+  { id: 'fe-04', name: 'TypeScript', level: 75 },
+  { id: 'fe-05', name: 'Bootstrap', level: 85 },
+  { id: 'fe-06', name: 'Tailwind CSS', level: 93 },
+  { id: 'fe-07', name: 'React.js', level: 93 },
+  { id: 'fe-08', name: 'Next.js', level: 72 },
+  { id: 'fe-09', name: 'Redux Toolkit', level: 78 },
+  { id: 'fe-10', name: 'Axios', level: 90 },
+  { id: 'fe-11', name: 'REST API', level: 90 },
+  { id: 'fe-12', name: 'Responsive Design', level: 94 },
+  { id: 'fe-13', name: 'Git', level: 90 },
+  { id: 'fe-14', name: 'GitHub', level: 90 },
+];
+
+export const backendSkills = [
+  { id: 'be-01', name: 'Node.js', level: 92 },
+  { id: 'be-02', name: 'Express.js', level: 92 },
+  { id: 'be-03', name: 'MongoDB', level: 88 },
+  { id: 'be-04', name: 'Mongoose', level: 88 },
+  { id: 'be-05', name: 'JWT', level: 85 },
+  { id: 'be-06', name: 'Authentication', level: 87 },
+  { id: 'be-07', name: 'Authorization', level: 85 },
+  { id: 'be-08', name: 'REST API', level: 92 },
+  { id: 'be-09', name: 'MVC', level: 88 },
+  { id: 'be-10', name: 'Cookies', level: 82 },
+  { id: 'be-11', name: 'CORS', level: 85 },
+  { id: 'be-12', name: 'Multer', level: 80 },
+  { id: 'be-13', name: 'Cloudinary', level: 78 },
+  { id: 'be-14', name: 'Bcrypt', level: 85 },
+  { id: 'be-15', name: 'Postman', level: 88 },
+  { id: 'be-16', name: 'Environment Variables', level: 90 },
+];
