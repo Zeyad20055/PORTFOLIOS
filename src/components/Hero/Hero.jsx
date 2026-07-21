@@ -57,7 +57,7 @@ export default function Hero() {
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <motion.a
-              href="/assets/cv/Zeyad-Hamdy-CV.pdf"
+              href={`${import.meta.env.BASE_URL}assets/cv/Zeyad_Hamdy.pdf`}
               download="CV_Zeyad_Hamdy.pdf"
               whileHover={{ scale: 1.04, y: -2 }}
               whileTap={{ scale: 0.97 }}
