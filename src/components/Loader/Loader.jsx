@@ -1,7 +1,5 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 
-// Full-screen loading sequence shown once while the page's first paint
-// settles in. Mirrors the terminal motif used in the Hero section.
 export default function Loader({ loading }) {
   return (
     <AnimatePresence>
@@ -9,34 +7,55 @@ export default function Loader({ loading }) {
         <motion.div
           role="status"
           aria-live="polite"
-          aria-label="Loading portfolio"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#020617]"
+          aria-label="Loading Portfolio"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
         >
-          <div className="flex flex-col items-center gap-4">
-            <motion.span
-              className="font-mono text-sm text-[var(--color-secondary)]"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              zeyad@dev ~ %
+          <div className="flex flex-col items-center gap-6">
+            {/* Terminal */}
+            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="font-mono text-sm tracking-widest text-[var(--color-secondary)]">
+              <span className="text-[var(--color-primary)]">zeyad@portfolio</span> <span className="text-white">~ %</span>
             </motion.span>
+
+            {/* Main Title */}
             <div className="flex items-center gap-2">
-              <span className="font-display text-2xl font-semibold text-white">
-                booting portfolio
-              </span>
-              <span className="h-6 w-[2px] bg-[var(--color-primary)] caret-blink" />
+              <motion.h1 initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="font-display text-3xl font-bold tracking-wide">
+                <span className="text-white">Initializing</span> <span className="text-[var(--color-primary)]">Portfolio</span>
+              </motion.h1>
+
+              <span className="h-7 w-[2px] bg-[var(--color-primary)] caret-blink" />
             </div>
-            <div className="h-[2px] w-48 overflow-hidden rounded-full bg-white/10">
+
+            {/* Subtitle */}
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.8 }} transition={{ delay: 0.5 }} className="text-center text-sm tracking-[0.3em] uppercase text-[var(--color-secondary)]">
+              Full Stack Developer • MERN Stack
+            </motion.p>
+
+            {/* Progress */}
+            <div className="h-[4px] w-72 overflow-hidden rounded-full bg-white/10">
               <motion.div
-                className="h-full bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)]"
-                initial={{ x: '-100%' }}
-                animate={{ x: '0%' }}
-                transition={{ duration: 1.1, ease: 'easeInOut' }}
+                className="h-full rounded-full bg-gradient-to-r from-[var(--color-primary)] via-[#FFD700] to-[var(--color-secondary)]"
+                initial={{ x: "-100%" }}
+                animate={{ x: "0%" }}
+                transition={{ duration: 1.4, ease: "easeInOut" }}
               />
             </div>
+
+            {/* Loading Text */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                delay: 0.8,
+                repeat: Infinity,
+                repeatType: "reverse",
+                duration: 0.8,
+              }}
+              className="font-mono text-xs tracking-[0.25em] text-[var(--color-primary)]"
+            >
+              LOADING EXPERIENCE...
+            </motion.p>
           </div>
         </motion.div>
       )}

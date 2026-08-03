@@ -1,11 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #020617;
-  --color-primary: #3b82f6;
-  --color-secondary: #06b6d4;
-  --color-accent: #22c55e;
-  --color-muted: #8b9ab3;
+  /* ---------- Core Luxury Palette ---------- */
+  --color-bg: #000000;
+  --color-primary: #C0C0C0;      /* Silver */
+  --color-secondary: #FFFFFF;    /* White */
+  --color-accent: #8C8C8C;       /* Dark Silver */
+  --color-muted: #707070;        /* Muted Gray */
+
+  /* ---------- Extended Luxury Tokens ---------- */
+  --color-silver: #C0C0C0;
+  --color-light-silver: #E5E5E5;
+  --color-dark-silver: #8C8C8C;
+  --color-white: #FFFFFF;
+  --color-soft-white: #F8F8F8;
+  --color-black: #000000;
+  --color-rich-black: #0B0B0B;
+  --color-dark-gray: #1A1A1A;
 
   --font-display: 'Sora', sans-serif;
   --font-body: 'Inter', sans-serif;
@@ -23,20 +34,67 @@ html, body {
   overflow-x: hidden;
 }
 
+/* ---------- Luxury Background System ---------- */
+/* Pure black base + subtle gold radial glows + noise + vignette.
+   Applied via body::before/::after so no existing markup/classes change. */
+body {
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 10%, rgba(212, 175, 55, 0.10), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 85% 20%, rgba(192, 192, 192, 0.06), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(139, 0, 0, 0.08), transparent 65%),
+    radial-gradient(circle at 50% 50%, var(--color-rich-black) 0%, #000000 70%);
+  pointer-events: none;
+}
+
+/* Fine noise texture, extremely subtle, GPU-cheap (single tiny SVG tile) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* Vignette overlay to focus attention toward center, Rolex/Ferrari style */
+.luxury-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.65) 100%);
+}
+
 ::selection {
   background: var(--color-primary);
-  color: #020617;
+  color: #000000;
 }
 
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-bg);
+  background: #000000;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(var(--color-primary), var(--color-secondary));
+  background: linear-gradient(var(--color-primary), var(--color-bright-gold));
   border-radius: 8px;
+  transition: background 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(var(--color-bright-gold), var(--color-primary));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -49,9 +107,10 @@ html, body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-secondary);
+  outline: 2px solid var(--color-primary);
   outline-offset: 3px;
   border-radius: 4px;
+  box-shadow: 0 0 12px 2px rgba(212, 175, 55, 0.45);
 }
 
 /* ---------- Reusable design primitives ---------- */
@@ -74,17 +133,43 @@ html, body {
 }
 
 .glass {
-  background: rgba(15, 23, 42, 0.55);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(148, 163, 184, 0.12);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(192, 192, 192, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+/* Golden reflection sweep across glass surfaces */
+.glass::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(245, 215, 110, 0.10) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
 }
 
 .grad-text {
-  background: linear-gradient(90deg, #ffffff 0%, var(--color-secondary) 55%, var(--color-primary) 100%);
+  background: linear-gradient(90deg, #ffffff 0%, var(--color-primary) 55%, var(--color-bright-gold) 100%);
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
+  color: gold;
+  background-size: 200% 100%;
+  animation: grad-text-shift 6s ease-in-out infinite;
+}
+
+@keyframes grad-text-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .grad-border {
@@ -102,25 +187,52 @@ html, body {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.65;
 }
 
 .btn-gradient {
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-  transition: filter 0.25s ease, transform 0.25s ease;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-bright-gold));
+  box-shadow: 0 4px 20px -4px rgba(212, 175, 55, 0.35);
+  transition: filter 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 .btn-gradient:hover {
   filter: brightness(1.15);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 30px -6px rgba(245, 215, 110, 0.55);
+}
+.btn-gradient:active {
+  transform: translateY(0) scale(0.98);
+  filter: brightness(0.95);
+  box-shadow: 0 4px 14px -6px rgba(212, 175, 55, 0.4);
 }
 
 .card-glow {
+  background: rgba(10, 10, 10, 0.7);
+  border: 1px solid rgba(192, 192, 192, 0.14);
   transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+.card-glow::after {
+  /* subtle reflection band, appears on hover */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(245, 215, 110, 0.14), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
 }
 .card-glow:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 60px -20px rgba(59, 130, 246, 0.45);
-  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-6px) rotate(-0.4deg);
+  box-shadow: 0 20px 60px -20px rgba(212, 175, 55, 0.45), 0 0 0 1px rgba(192, 192, 192, 0.15);
+  border-color: rgba(212, 175, 55, 0.45);
+}
+.card-glow:hover::after {
+  left: 130%;
 }
 
 .section-container {
@@ -132,6 +244,29 @@ html, body {
 .section-pad {
   padding-top: 6rem;
   padding-bottom: 6rem;
+}
+
+/* ---------- Section background variants ---------- */
+/* Optional utility classes so each section can look distinct.
+   Apply whichever fits — none of these touch existing markup. */
+.section-luxury-gold {
+  background:
+    radial-gradient(ellipse 70% 50% at 20% 0%, rgba(212, 175, 55, 0.08), transparent 60%),
+    linear-gradient(180deg, #000000 0%, var(--color-rich-black) 100%);
+}
+.section-luxury-silver {
+  background:
+    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(192, 192, 192, 0.06), transparent 60%),
+    linear-gradient(180deg, var(--color-rich-black) 0%, #000000 100%);
+}
+.section-luxury-red {
+  background:
+    radial-gradient(ellipse 55% 40% at 50% 100%, rgba(139, 0, 0, 0.10), transparent 65%),
+    linear-gradient(180deg, #000000 0%, var(--color-dark-gray) 100%);
+}
+.section-luxury-graphite {
+  background: linear-gradient(160deg, var(--color-dark-gray) 0%, #000000 70%);
+  backdrop-filter: blur(2px);
 }
 
 @keyframes blob-float {
@@ -146,6 +281,17 @@ html, body {
   opacity: 0.35;
   animation: blob-float 16s ease-in-out infinite;
   pointer-events: none;
+  /* Default luxury gold glow; override background per-instance for silver/red variants */
+  background: radial-gradient(circle, var(--color-primary), transparent 70%);
+}
+.blob-gold {
+  background: radial-gradient(circle, var(--color-bright-gold), transparent 70%);
+}
+.blob-silver {
+  background: radial-gradient(circle, var(--color-secondary), transparent 70%);
+}
+.blob-red {
+  background: radial-gradient(circle, var(--color-red-glow), transparent 70%);
 }
 
 @keyframes float-y {
@@ -163,6 +309,7 @@ html, body {
 }
 .caret-blink {
   animation: caret-blink 1s steps(1) infinite;
+  color: var(--color-primary);
 }
 
 @keyframes marquee-scroll {
@@ -171,4 +318,161 @@ html, body {
 }
 .marquee {
   animation: marquee-scroll 28s linear infinite;
+  position: relative;
+}
+/* Golden light sweeping across the marquee track while it scrolls */
+.marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(245, 215, 110, 0.18) 48%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: marquee-shine 4s linear infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+@keyframes marquee-shine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -50% 0; }
+}
+
+/* ---------- New luxury-grade animations ---------- */
+
+/* Soft pulsing gold glow, for CTAs / badges / icons */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 12px 0 rgba(212, 175, 55, 0.25); }
+  50% { box-shadow: 0 0 28px 6px rgba(212, 175, 55, 0.5); }
+}
+.glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Shine sweep across any surface (buttons, cards, logos) */
+@keyframes shine-sweep {
+  0% { transform: translateX(-120%) skewX(-20deg); }
+  100% { transform: translateX(220%) skewX(-20deg); }
+}
+.shine-sweep {
+  position: relative;
+  overflow: hidden;
+}
+.shine-sweep::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+  animation: shine-sweep 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Animated glowing border, e.g. for featured/premium cards */
+@keyframes border-glow {
+  0%, 100% { border-color: rgba(212, 175, 55, 0.35); box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.15); }
+  50% { border-color: rgba(245, 215, 110, 0.75); box-shadow: 0 0 20px 2px rgba(245, 215, 110, 0.35); }
+}
+.border-glow {
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  animation: border-glow 4s ease-in-out infinite;
+}
+
+/* 3D tilt on hover — pairs with a small JS mousemove handler that sets
+   --tilt-x / --tilt-y (falls back gracefully to 0deg if JS isn't wired up) */
+.card-tilt {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  transform: perspective(900px) rotateX(var(--tilt-y)) rotateY(var(--tilt-x));
+  transition: transform 0.2s ease-out;
+  transform-style: preserve-3d;
+}
+
+/* Mouse-follow light — pairs with a small JS mousemove handler that sets
+   --mx / --my (percentages). Purely CSS-degrades to a centered glow. */
+.mouse-light {
+  position: relative;
+  overflow: hidden;
+}
+.mouse-light::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgba(212, 175, 55, 0.18),
+    transparent 45%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.mouse-light:hover::before {
+  opacity: 1;
+}
+
+/* Smooth fade-in for scroll reveals */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up {
+  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Directional slide-ins */
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-32px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(32px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.slide-in-left { animation: slide-in-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.slide-in-right { animation: slide-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Gentle scale-in, for modals/badges/logos */
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+.scale-in {
+  animation: scale-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Lightweight parallax layer — combine with scroll-driven transform (JS/GSAP)
+   setting --parallax-y; CSS just declares the smooth interpolation. */
+.parallax-layer {
+  --parallax-y: 0px;
+  transform: translateY(var(--parallax-y));
+  transition: transform 0.05s linear;
+  will-change: transform;
+}
+
+/* Magnetic hover — pairs with a small JS mousemove handler that sets
+   --mag-x / --mag-y (px offsets); CSS handles the elastic return. */
+.magnetic {
+  --mag-x: 0px;
+  --mag-y: 0px;
+  transform: translate(var(--mag-x), var(--mag-y));
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Luxury link styling: gold links, bright gold hover */
+a {
+  color: var(--color-primary);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+a:hover {
+  color: var(--color-bright-gold);
+  text-shadow: 0 0 10px rgba(245, 215, 110, 0.4);
 }
