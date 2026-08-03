@@ -117,8 +117,13 @@ export default function Hero() {
                 decoding="async"
                 style={{
                   transform: `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
+                  boxShadow: `
+        0 0 20px rgba(192,192,192,0.5),
+        0 0 40px rgba(192,192,192,0.35),
+        0 15px 40px rgba(0,0,0,0.6)
+      `,
                 }}
-                className="relative h-80 w-72 rounded-3xl border border-white/10 object-cover shadow-2xl shadow-black/50 transition-transform duration-200 ease-out sm:h-96 sm:w-80"
+                className="relative h-72 w-72 rounded-full border-4 border-[#C0C0C0] object-cover transition-transform duration-200 ease-out sm:h-80 sm:w-80"
               />
             </picture>
 
