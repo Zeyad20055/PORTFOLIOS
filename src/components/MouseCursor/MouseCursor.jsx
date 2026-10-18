@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 
 // Lightweight custom cursor: a small dot with a trailing ring. Disabled
 // automatically on touch devices. Uses event delegation (mouseover/mouseout
@@ -8,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 export default function MouseCursor() {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
+  const prefersReducedMotion = useReducedMotion();
   const [isTouch] = useState(() => typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches);
 
   useEffect(() => {
@@ -25,6 +27,15 @@ export default function MouseCursor() {
       if (dotRef.current) {
         dotRef.current.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
       }
+      if (prefersReducedMotion) {
+        ringX = mouseX;
+        ringY = mouseY;
+        if (ringRef.current) {
+          ringRef.current.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+        }
+      } else if (!frame) {
+        frame = requestAnimationFrame(animateRing);
+      }
     };
 
     const animateRing = () => {
@@ -33,7 +44,11 @@ export default function MouseCursor() {
       if (ringRef.current) {
         ringRef.current.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
       }
-      frame = requestAnimationFrame(animateRing);
+      if (Math.abs(mouseX - ringX) > 0.1 || Math.abs(mouseY - ringY) > 0.1) {
+        frame = requestAnimationFrame(animateRing);
+      } else {
+        frame = null;
+      }
     };
 
     const handleOver = (e) => {
@@ -50,15 +65,13 @@ export default function MouseCursor() {
     window.addEventListener("mousemove", handleMove);
     window.addEventListener("mouseover", handleOver);
     window.addEventListener("mouseout", handleOut);
-    frame = requestAnimationFrame(animateRing);
-
     return () => {
       window.removeEventListener("mousemove", handleMove);
       window.removeEventListener("mouseover", handleOver);
       window.removeEventListener("mouseout", handleOut);
       cancelAnimationFrame(frame);
     };
-  }, [isTouch]);
+  }, [isTouch, prefersReducedMotion]);
 
   if (isTouch) return null;
 
@@ -68,7 +81,7 @@ export default function MouseCursor() {
       <div
         ref={ringRef}
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[90] hidden h-8 w-8 rounded-full border border-white/30 transition-[transform,border-color] duration-150 md:block"
+        className="pointer-events-none fixed left-0 top-0 z-[90] hidden h-8 w-8 rounded-full border border-[var(--color-silver)]/40 transition-[transform,border-color] duration-150 md:block"
       />
     </>
   );

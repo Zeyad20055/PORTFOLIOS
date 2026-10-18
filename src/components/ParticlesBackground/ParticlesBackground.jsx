@@ -51,7 +51,7 @@ export default function ParticlesBackground() {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(6, 182, 212, 0.55)';
+        ctx.fillStyle = 'rgba(212, 175, 55, 0.35)';
         ctx.fill();
       });
 
@@ -64,7 +64,7 @@ export default function ParticlesBackground() {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(59, 130, 246, ${0.18 * (1 - dist / 120)})`;
+            ctx.strokeStyle = `rgba(192, 192, 192, ${0.12 * (1 - dist / 120)})`;
             ctx.lineWidth = 1;
             ctx.stroke();
           }

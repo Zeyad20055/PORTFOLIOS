@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { frontendSkills, backendSkills } from '../../data/skills';
+import { useLanguage } from '../../context/useLanguage';
 
 function SkillGroup({ title, skills, delay }) {
   return (
@@ -10,9 +11,7 @@ function SkillGroup({ title, skills, delay }) {
       transition={{ duration: 0.6, delay }}
       className="glass card-glow rounded-2xl p-6 sm:p-8"
     >
-      <h3 className="mb-6 font-display text-xl font-semibold text-white">
-        {title}
-      </h3>
+      <h3 className="mb-6 font-display text-xl font-semibold text-white">{title}</h3>
       <div className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
         {skills.map((skill) => (
           <div key={skill.id}>
@@ -37,6 +36,8 @@ function SkillGroup({ title, skills, delay }) {
 }
 
 export default function Skills() {
+  const { t } = useLanguage();
+
   return (
     <section id="skills" className="section-pad relative">
       <div className="section-container">
@@ -46,15 +47,15 @@ export default function Skills() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
         >
-          <span className="eyebrow">02. skills</span>
+          <span className="eyebrow">{t.skills.eyebrow}</span>
           <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">
-            What I <span className="grad-text">Work With</span>
+            {t.skills.title}
           </h2>
         </motion.div>
 
         <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-2">
-          <SkillGroup title="Front-End" skills={frontendSkills} delay={0.05} />
-          <SkillGroup title="Back-End" skills={backendSkills} delay={0.15} />
+          <SkillGroup title={t.skills.frontend} skills={frontendSkills} delay={0.05} />
+          <SkillGroup title={t.skills.backend} skills={backendSkills} delay={0.15} />
         </div>
       </div>
     </section>

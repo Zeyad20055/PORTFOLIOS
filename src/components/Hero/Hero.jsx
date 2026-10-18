@@ -1,28 +1,33 @@
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import Typed from "typed.js";
-import { Link } from "react-scroll";
-import { FaDownload, FaArrowRight } from "react-icons/fa6";
-import profileWebp from "../../assets/images/profile.webp";
-import profileJpg from "../../assets/images/profile.jpg";
-import ParticlesBackground from "../ParticlesBackground/ParticlesBackground";
-import SocialLinks from "../SocialLinks/SocialLinks";
+import { useEffect, useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import Typed from 'typed.js';
+import { Link } from 'react-scroll';
+import { FaDownload, FaArrowRight } from 'react-icons/fa6';
+import profileWebp from '../../assets/images/profile.webp';
+import profileJpg from '../../assets/images/profile.jpg';
+import SocialLinks from '../SocialLinks/SocialLinks';
+import { useLanguage } from '../../context/useLanguage';
 
 export default function Hero() {
+  const { t, isArabic } = useLanguage();
+  const prefersReducedMotion = useReducedMotion();
   const typedRef = useRef(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
+    if (!typedRef.current || prefersReducedMotion) return undefined;
+
     const typed = new Typed(typedRef.current, {
-      strings: ["Full Stack Developer.", "React.js & Node.js Engineer.", "MERN Stack Builder.", "Programming Educator."],
+      strings: t.hero.roles,
       typeSpeed: 45,
       backSpeed: 25,
       backDelay: 1500,
       loop: true,
       smartBackspace: true,
     });
+
     return () => typed.destroy();
-  }, []);
+  }, [prefersReducedMotion, t.hero.roles]);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -32,28 +37,19 @@ export default function Hero() {
   };
 
   return (
-    <section id="home" className="relative flex min-h-screen items-center overflow-hidden pt-28 pb-16">
-      {/* Animated blobs */}
-      <div aria-hidden="true" className="blob left-[-10%] top-[10%] h-80 w-80 bg-[var(--color-primary)]" />
-      <div aria-hidden="true" className="blob right-[-8%] top-[35%] h-96 w-96 bg-[var(--color-secondary)]" style={{ animationDelay: "4s" }} />
-      <div aria-hidden="true" className="blob bottom-[-10%] left-[30%] h-72 w-72 bg-[var(--color-accent)]" style={{ animationDelay: "8s" }} />
-      <ParticlesBackground />
-
+    <section id="home" className="relative flex min-h-screen items-center overflow-hidden pb-16 pt-28">
       <div className="section-container relative z-10 grid grid-cols-1 items-center gap-16 lg:grid-cols-2">
-        {/* Text column */}
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <span className="eyebrow mb-5"> Welcome</span>
-          <p className="mb-2 font-mono text-lg text-[var(--color-muted)]">Hello, I'm</p>
+          <span className="eyebrow mb-5">{t.hero.welcome}</span>
+          <p className="mb-2 font-mono text-lg text-[var(--color-muted)]">{t.hero.hello}</p>
           <h1 className="font-display text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
             <span className="grad-text">Eng. Zeyad Hamdy</span>
           </h1>
           <div className="mt-4 h-9 font-display text-xl font-semibold text-white sm:text-2xl">
-            <span ref={typedRef} />
+            <span ref={typedRef}>{prefersReducedMotion ? t.hero.roles[0] : ''}</span>
             <span className="text-[var(--color-primary)]">|</span>
           </div>
-          <p className="mt-6 max-w-lg text-base leading-relaxed text-[var(--color-muted)]">
-            I build modern, scalable and high-performance web applications with React.js, Node.js, Express.js and MongoDB — focused on clean code and responsive user experiences.
-          </p>
+          <p className="mt-6 max-w-lg text-base leading-relaxed text-[var(--color-muted)]">{t.hero.description}</p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <motion.a
@@ -62,22 +58,22 @@ export default function Hero() {
               whileHover={{ scale: 1.04, y: -2 }}
               whileTap={{ scale: 0.97 }}
               data-cursor-hover
-              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full btn-gradient px-6 py-3 font-mono text-sm font-medium text-white shadow-lg shadow-blue-500/20"
+              className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full btn-gradient px-6 py-3 font-mono text-sm font-medium text-white"
             >
               <span className="absolute inset-0 -translate-x-full bg-white/25 transition-transform duration-500 group-hover:translate-x-full" />
-              <motion.span animate={{ y: [0, 2, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }} className="relative">
+              <motion.span animate={{ y: [0, 2, 0] }} transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }} className="relative">
                 <FaDownload size={14} />
               </motion.span>
-              <span className="relative">Download CV</span>
+              <span className="relative">{t.hero.download}</span>
             </motion.a>
             <Link
               to="projects"
               smooth
               duration={500}
               offset={-70}
-              className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/15 px-6 py-3 font-mono text-sm font-medium text-white transition-colors hover:border-[var(--color-secondary)]"
+              className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-white/15 bg-white/2 px-6 py-3 font-mono text-sm font-medium text-white transition-colors hover:border-[var(--color-secondary)]"
             >
-              View Projects <FaArrowRight size={13} />
+              {t.hero.projects} <FaArrowRight size={13} style={{ transform: isArabic ? 'scaleX(-1)' : 'none' }} />
             </Link>
             <Link
               to="contact"
@@ -86,7 +82,7 @@ export default function Hero() {
               offset={-70}
               className="inline-flex cursor-pointer items-center gap-2 rounded-full px-6 py-3 font-mono text-sm font-medium text-[var(--color-muted)] transition-colors hover:text-white"
             >
-              Contact Me
+              {t.hero.contact}
             </Link>
           </div>
 
@@ -95,7 +91,6 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Image + terminal card column */}
         <motion.div
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -105,7 +100,6 @@ export default function Hero() {
           onMouseLeave={() => setTilt({ x: 0, y: 0 })}
         >
           <div className="float-y relative">
-            <div className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-[var(--color-primary)] via-[var(--color-secondary)] to-[var(--color-accent)] opacity-40 blur-2xl" />
             <picture>
               <source srcSet={profileWebp} type="image/webp" />
               <img
@@ -117,30 +111,25 @@ export default function Hero() {
                 decoding="async"
                 style={{
                   transform: `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
-                  boxShadow: `
-        0 0 20px rgba(192,192,192,0.5),
-        0 0 40px rgba(192,192,192,0.35),
-        0 15px 40px rgba(0,0,0,0.6)
-      `,
+                  boxShadow: '0 18px 44px rgba(0, 0, 0, 0.48)',
                 }}
-                className="relative h-72 w-72 rounded-full border-4 border-[#C0C0C0] object-cover transition-transform duration-200 ease-out sm:h-80 sm:w-80"
+                className="relative h-72 w-72 rounded-full border-2 border-[var(--color-primary)] object-cover transition-transform duration-200 ease-out sm:h-80 sm:w-80"
               />
             </picture>
 
-            {/* Signature terminal window, floating over the portrait */}
-            <div className="glass grad-border absolute -bottom-6 -left-4 w-56 rounded-xl p-3 shadow-xl shadow-black/40 sm:-bottom-10 sm:-left-16 sm:w-72">
+            <div className={`glass grad-border absolute -bottom-6 ${isArabic ? '-right-4 sm:-right-16' : '-left-4 sm:-left-16'} w-56 rounded-xl p-3 shadow-xl shadow-black/40 sm:-bottom-10 sm:w-72`} dir="ltr">
               <div className="mb-2 flex items-center gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
                 <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/80" />
                 <span className="h-2.5 w-2.5 rounded-full bg-green-400/80" />
-                <span className="ml-2 font-mono text-[11px] text-[var(--color-muted)]">about.js</span>
+                <span className="ms-2 font-mono text-[11px] text-[var(--color-muted)]">about.js</span>
               </div>
               <pre className="whitespace-pre-wrap font-mono text-[11px] leading-relaxed text-[var(--color-muted)]">
-                <span className="text-[var(--color-primary)]">const</span> dev <span className="text-white">=</span> {"{"}
-                {"\n"} name: <span className="text-[var(--color-accent)]">'Zeyad'</span>,{"\n"} stack: <span className="text-[var(--color-accent)]">'MERN'</span>,{"\n"} status:{" "}
-                <span className="text-[var(--color-accent)]">'open to work'</span>
-                {"\n"}
-                {"}"}
+                <span className="text-[var(--color-primary)]">const</span> dev <span className="text-white">=</span> {'{'}
+                {'\n'} name: <span className="text-[var(--color-accent)]">'Zeyad'</span>,{'\n'} stack: <span className="text-[var(--color-accent)]">'MERN'</span>,{'\n'} status:{' '}
+                <span className="text-[var(--color-accent)]">'{t.hero.availability}'</span>
+                {'\n'}
+                {'}'}
               </pre>
             </div>
           </div>

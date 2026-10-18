@@ -1,38 +1,39 @@
-import { useEffect, useState } from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
-import AOS from "aos";
-import "aos/dist/aos.css";
+import { useEffect, useState } from 'react';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import { MotionConfig } from 'framer-motion';
 
-import MainLayout from "./layouts/MainLayout";
-import Home from "./pages/Home";
-import Loader from "./components/Loader/Loader";
+import MainLayout from './layouts/MainLayout';
+import Home from './pages/Home';
+import Loader from './components/Loader/Loader';
+import { LanguageProvider } from './context/LanguageContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AOS.init({
-      duration: 700,
-      once: true,
-      offset: 60,
-    });
-
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1200);
+    }, 450);
 
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <HashRouter>
-      <Loader loading={loading} />
+    <LanguageProvider>
+      <ThemeProvider>
+        <MotionConfig reducedMotion="user">
+          <HashRouter>
+            <Loader loading={loading} />
 
-      <MainLayout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
-      </MainLayout>
-    </HashRouter>
+            <MainLayout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                </Routes>
+              </MainLayout>
+              </HashRouter>
+            </MotionConfig>
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }

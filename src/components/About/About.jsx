@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useLanguage } from '../../context/useLanguage';
 
 const COUNTERS = [
-  { id: 'c-01', label: 'Projects', value: 40, suffix: '+' },
-  { id: 'c-02', label: 'Technologies', value: 15, suffix: '+' },
-  { id: 'c-03', label: 'Certificates', value: 5, suffix: '+' },
-  { id: 'c-04', label: 'Years Learning', value: 3, suffix: '+' },
+  { id: 'c-01', key: 'projects', value: 40, suffix: '+' },
+  { id: 'c-02', key: 'technologies', value: 15, suffix: '+' },
+  { id: 'c-03', key: 'certificates', value: 5, suffix: '+' },
+  { id: 'c-04', key: 'experience', value: 3, suffix: '+' },
 ];
 
 function Counter({ value, suffix }) {
@@ -35,6 +36,8 @@ function Counter({ value, suffix }) {
 }
 
 export default function About() {
+  const { t } = useLanguage();
+
   return (
     <section id="about" className="section-pad relative">
       <div className="section-container">
@@ -44,9 +47,15 @@ export default function About() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
         >
-          <span className="eyebrow">01. about</span>
+          <span className="eyebrow">{t.about.eyebrow}</span>
           <h2 className="mt-3 font-display text-3xl font-bold sm:text-4xl">
-            Who <span className="grad-text">I Am</span>
+            {t.about.title === 'Who I Am' ? (
+              <>
+                Who <span className="grad-text">I Am</span>
+              </>
+            ) : (
+              t.about.title
+            )}
           </h2>
         </motion.div>
 
@@ -58,21 +67,8 @@ export default function About() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="lg:col-span-3"
           >
-            <p className="text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-              I'm a Full Stack Developer with a background in Management
-              Information Systems, passionate about building modern web
-              applications using{' '}
-              <span className="text-white">React.js, Node.js, Express.js and MongoDB</span>.
-              I focus on writing clean, scalable code and creating
-              responsive, high-performance user experiences that hold up in
-              production — not just in a demo.
-            </p>
-            <p className="mt-4 text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-              Alongside development, I create programming education content
-              for university students, breaking down full-stack concepts in
-              plain, practical terms — because the best way to master
-              something is to be able to teach it clearly.
-            </p>
+            <p className="text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">{t.about.body1}</p>
+            <p className="mt-4 text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">{t.about.body2}</p>
           </motion.div>
 
           <motion.div
@@ -85,9 +81,7 @@ export default function About() {
             {COUNTERS.map((counter) => (
               <div key={counter.id}>
                 <Counter value={counter.value} suffix={counter.suffix} />
-                <p className="mt-1 font-mono text-xs text-[var(--color-muted)]">
-                  {counter.label}
-                </p>
+                <p className="mt-1 font-mono text-xs text-[var(--color-muted)]">{t.about.counters[counter.key]}</p>
               </div>
             ))}
           </motion.div>
