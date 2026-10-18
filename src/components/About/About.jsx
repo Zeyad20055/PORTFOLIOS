@@ -3,7 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { useLanguage } from '../../context/useLanguage';
 
 const COUNTERS = [
-  { id: 'c-01', key: 'projects', value: 40, suffix: '+' },
+  { id: 'c-01', key: 'projects', value: 65, suffix: '+' },
   { id: 'c-02', key: 'technologies', value: 15, suffix: '+' },
   { id: 'c-03', key: 'certificates', value: 5, suffix: '+' },
   { id: 'c-04', key: 'experience', value: 3, suffix: '+' },
