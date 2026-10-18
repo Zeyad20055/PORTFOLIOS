@@ -1,10 +1,18 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/PORTFOLIOS/assets/images/og-cover.jpg" />
+    <script>
+      try {
+        const savedTheme = localStorage.getItem('portfolio-theme');
+        document.documentElement.dataset.theme = savedTheme === 'light' ? 'light' : 'dark';
+      } catch {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/PORTFOLIOS/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#020617" />
+    <meta name="theme-color" content="#0B0F19" />
     <meta name="description" content="Eng. Zeyad Hamdy — Full Stack Developer building modern, scalable & high-performance web applications with React, Node.js, Express and MongoDB." />
     <meta name="author" content="Eng. Zeyad Hamdy" />
     <meta name="keywords" content="Zeyad Hamdy, Full Stack Developer, React Developer, Node.js Developer, MERN Stack, Web Developer Portfolio" />
@@ -23,11 +31,11 @@
     <!-- Fonts: preconnect + stylesheet (kept out of CSS so it isn't render-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <title>Zeyad Hamdy | Full Stack Developer</title>
-    <script type="module" crossorigin src="/PORTFOLIOS/assets/index-iGT3EOyZ.js"></script>
-    <link rel="stylesheet" crossorigin href="/PORTFOLIOS/assets/index-Cnaf9j9C.css">
+    <script type="module" crossorigin src="/PORTFOLIOS/assets/index-B3Akn2u_.js"></script>
+    <link rel="stylesheet" crossorigin href="/PORTFOLIOS/assets/index-Bd9IJ2mY.css">
   </head>
   <body>
     <div id="root"></div>
