@@ -41,11 +41,7 @@ export default function Footer() {
         <SocialLinks variant="row" />
       </div>
 
-      <div className="border-t border-white/5 py-5">
-        <p className="text-center font-mono text-xs text-[var(--color-muted)]">
-          © {new Date().getFullYear()} {t.footer.made}
-        </p>
-      </div>
+
     </footer>
   );
 }
